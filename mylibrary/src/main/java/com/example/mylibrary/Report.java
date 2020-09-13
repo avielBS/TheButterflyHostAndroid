@@ -6,6 +6,7 @@ public class Report {
     private String wayContact;
     private String day;
     private String message;
+    private String country;
 
     public Report(String name, String way , String date , String msg) {
         this.name  = name;
@@ -44,5 +45,9 @@ public class Report {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class ReporterDialog extends AppCompatDialogFragment {
 
+    // TODO: 30/08/2020 add message field
     private EditText reporterDialogName;
     private EditText reporterDialogWayToContact;
     private EditText reporterDialogDate;
@@ -28,7 +29,7 @@ public class ReporterDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
 
@@ -37,16 +38,16 @@ public class ReporterDialog extends AppCompatDialogFragment {
         reporterDialogWayToContact = view.findViewById(R.id.report_dialog_way_to_contact);
         reporterDialogDate = view.findViewById(R.id.report_dialog_date);
 
-        builder.setView(view).
-                setTitle("Contact").
-                setIcon(R.drawable.ic_action_name).
-                setPositiveButton("send", new DialogInterface.OnClickListener() {
+        builder.setView(view)
+                .setIcon(R.drawable.ic_butterfly)
+                .setTitle(R.string.butterfly_contact)
+        .setPositiveButton(R.string.butterfly_btn_send, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = reporterDialogName.getText().toString();
                 String wayTC = reporterDialogWayToContact.getText().toString();
                 String date = reporterDialogDate.getText().toString();
-                listener.WhenGetDialogReporterData(name,wayTC,date);
+                listener.onDialogComplete(name,wayTC,date);
             }
         });
         return builder.create();
