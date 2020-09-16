@@ -3,6 +3,7 @@ package com.example.mylibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,45 +14,46 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
-//import kotlin.Unit;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function3;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-//import static com.example.mylibrary.InputFromUserKt.getUserInput;
-
 
 public class ButterflyHost implements ReporterDialogData {
 
+    private final Handler handler;
     private String res = "";
-    private Context context;
-    private FragmentManager fragmentManager;
     private Boolean success;
     private Activity activity;
+    private Context context;
 
     public ButterflyHost() {
         success = false;
+        HandlerThread handlerThread = new HandlerThread("butterflyHost");
+        handlerThread.start();
+        handler = new Handler(handlerThread.getLooper());
     }
 
 
-    public Boolean OnGrabReportRequested(Context context, FragmentManager supportManager, Activity activity) {
-        this.context = context;
-        this.fragmentManager = supportManager;
+    public Boolean OnGrabReportRequested(Activity activity) {
         this.activity = activity;
-        openDialog(fragmentManager);
+        this.context = activity.getApplicationContext();
+        openDialog();
         return this.success;
     }
 
-    private void openDialog(FragmentManager supportManager) {
-        ReporterDialog reporterDialog = new ReporterDialog(this);
-        reporterDialog.show(supportManager, "");
-//        getUserInput(activity,"title","body","hint", (s) -> {
-//            Log.d("kotlin ! ",s);
-//            return Unit.INSTANCE;
-//        });
-
+    private void openDialog() {
+        ButterflyUtils.Companion.getUserInput(activity, new Function3<String, String, String, Unit>() {
+            @Override
+            public Unit invoke(String name, String wayToContactAndWhen, String additionalInfo) {
+                onDialogComplete(name,wayToContactAndWhen,additionalInfo);
+                return Unit.INSTANCE;
+            }
+        });
     }
 
 
@@ -59,7 +61,7 @@ public class ButterflyHost implements ReporterDialogData {
         try {
             return run("https://api.myip.com");
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("error",e.getMessage());
             return "not successed";
         }
     }
@@ -85,7 +87,7 @@ public class ButterflyHost implements ReporterDialogData {
                 return "";
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error",e.getMessage());
             return null;
         }
     }
@@ -97,37 +99,6 @@ public class ButterflyHost implements ReporterDialogData {
         final String jsonReport = gson.toJson(report);
 
         Log.d("report as json ", jsonReport);
-//        final Thread thread = new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    String jsonIP = getMyIpAdress();
-//                    IPModel ipModel = gson.fromJson(jsonIP, IPModel.class);
-//                    report.setCountry(ipModel.getCountry());
-//                    //          res = post("https://butterfly-host-server.herokuapp.com/sendReport",gson.toJson(report));
-//                    success = post("http://10.0.2.2:12345/sendReport", gson.toJson(report));
-//                    if(success)
-//                        showToast("sent !");
-//                    else
-//                        showToast("failed !");
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                Log.d("tag", res);
-//            }
-//        });
-//
-//        try {
-//            thread.start();
-//            thread.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            this.success = false;
-//        }
-//        return success;
 
         Runnable runnable = new Runnable() {
             @Override
@@ -146,7 +117,7 @@ public class ButterflyHost implements ReporterDialogData {
                         showToast(context.getString(R.string.butterfly_faild_reply));
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("error",e.getMessage());
                 }
                 Log.d("tag", res);
 
@@ -154,8 +125,8 @@ public class ButterflyHost implements ReporterDialogData {
         };
 
 
-        Thread networkThread = new Thread(runnable);
-        networkThread.start();
+
+        handler.post(runnable);
 
         return this.success;
     }

@@ -1,5 +1,5 @@
 package com.example.mylibrary;
 
-interface ReporterDialogData {
-     public boolean onDialogComplete(String name, String way , String day );
+public interface ReporterDialogData {
+     boolean onDialogComplete(String name, String way , String day );
 }

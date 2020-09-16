@@ -2,25 +2,25 @@ package com.example.mylibrary;
 
 public class Report {
 
-    private String name;
+    private String comments;
     private String wayContact;
-    private String day;
+    private String fakePlace;
     private String message;
     private String country;
 
-    public Report(String name, String way , String date , String msg) {
-        this.name  = name;
+    public Report(String comments, String way , String date , String msg) {
+        this.comments  = comments;
         this.wayContact = way;
-        this.day = date;
+        this.fakePlace = date;
         this.message = msg;
     }
 
     public String getName() {
-        return name;
+        return comments;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String comments) {
+        this.comments = comments;
     }
 
     public String getWayContact() {
@@ -31,12 +31,12 @@ public class Report {
         this.wayContact = wayContact;
     }
 
-    public String getDay() {
-        return day;
+    public String getFakePlace() {
+        return fakePlace;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setFakePlace(String fakePlace) {
+        this.fakePlace = fakePlace;
     }
 
     public String getMessage() {

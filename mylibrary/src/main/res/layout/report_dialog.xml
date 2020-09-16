@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/butterfly_name_title"
+        android:text="@string/butterfly_comments_title"
         android:layout_gravity="center"/>
     <EditText
         android:layout_width="match_parent"

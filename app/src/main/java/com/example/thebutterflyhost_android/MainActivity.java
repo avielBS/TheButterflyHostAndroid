@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ButterflyHost butterflyHost = new ButterflyHost();
-                boolean success= butterflyHost.OnGrabReportRequested(getApplicationContext(),getSupportFragmentManager(),activity);
+                boolean success= butterflyHost.OnGrabReportRequested(activity);
                 Log.d("Result !!!","from "+this.getClass().getName() +" "+ success);
             }
         });

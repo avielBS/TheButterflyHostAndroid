@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">My Library</string>
 
-    <string name="butterfly_name_title">Enter name</string>
+    <string name="butterfly_comments_title">Comments :</string>
     <string name="butterfly_way_to_contact">How and When can we contact you ?</string>
     <string name="butterfly_fake_contact">Do you want contact from fake place ?</string>
     <string name="butterfly_btn_send">Send</string>
     <string name="butterfly_contact">Contact</string>
     <string name="butterfly_sent_reply">sent !</string>
     <string name="butterfly_faild_reply">failed !</string>
+    <string name="way_to_contact_hint">e.g. Phone , Email ... before 12 AM</string>
+    <string name="name_hint">you can ask to use fake name : Jane Doe</string>
+    <string name="butterfly_fake_contact_hint">e.g. laundromat</string>
 
 
 </resources>
