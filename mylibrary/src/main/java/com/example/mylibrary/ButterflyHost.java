@@ -1,5 +1,4 @@
 package com.example.mylibrary;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
@@ -7,13 +6,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.fragment.app.FragmentManager;
-
 import com.google.gson.Gson;
-
-import java.io.IOException;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function3;
 import okhttp3.MediaType;
@@ -38,7 +31,6 @@ public class ButterflyHost implements ReporterDialogData {
         handler = new Handler(handlerThread.getLooper());
     }
 
-
     public Boolean OnGrabReportRequested(Activity activity) {
         this.activity = activity;
         this.context = activity.getApplicationContext();
@@ -56,21 +48,16 @@ public class ButterflyHost implements ReporterDialogData {
         });
     }
 
-
-    private String getMyIpAdress() {
-        try {
-            return run("https://api.myip.com");
-        } catch (IOException e) {
-            Log.e("error",e.getMessage());
-            return "not successed";
-        }
+    private String getMyIpAddress() {
+            return get("https://api.myip.com");
     }
 
-    private String run(String url) throws IOException {
-
-        final MediaType JSON
-                = MediaType.get("application/json; charset=utf-8");
-
+    /**
+     * this function make GET request
+     * @param url
+     * @return
+     */
+    private String get(String url)  {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -97,16 +84,11 @@ public class ButterflyHost implements ReporterDialogData {
         final Report report = new Report(name, way, date,"");
         final Gson gson = new Gson();
         final String jsonReport = gson.toJson(report);
-
         Log.d("report as json ", jsonReport);
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
-                try {
-
-                    String jsonIP = getMyIpAdress();
+                String jsonIP = getMyIpAddress();
                     IPModel ipModel = gson.fromJson(jsonIP, IPModel.class);
                     report.setCountry(ipModel.getCountry());
                     //          res = post("https://butterfly-host-server.herokuapp.com/sendReport",gson.toJson(report));
@@ -115,19 +97,10 @@ public class ButterflyHost implements ReporterDialogData {
                         showToast(context.getString(R.string.butterfly_sent_reply));
                     else
                         showToast(context.getString(R.string.butterfly_faild_reply));
-
-                } catch (IOException e) {
-                    Log.e("error",e.getMessage());
-                }
-                Log.d("tag", res);
-
+                    Log.d("tag", res);
             }
         };
-
-
-
         handler.post(runnable);
-
         return this.success;
     }
 
@@ -135,12 +108,18 @@ public class ButterflyHost implements ReporterDialogData {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(context,s,Toast.LENGTH_LONG).show();
+                Toast.makeText(context, s, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private boolean post(String url, String json) throws IOException{
+    /**
+     * this function make POST request to given URL and json
+     * @param url
+     * @param json
+     * @return
+     */
+    private boolean post(String url, String json) {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(json, JSON);
@@ -156,7 +135,10 @@ public class ButterflyHost implements ReporterDialogData {
                     Log.d("err", "http fail");
                     return false;
                 }
-
+            }
+            catch (Exception e){
+                Log.e("error",e.getMessage());
+                return false;
             }
     }
 }

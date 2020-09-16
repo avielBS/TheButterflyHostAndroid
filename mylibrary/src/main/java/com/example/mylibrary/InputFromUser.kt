@@ -22,6 +22,7 @@ class ButterflyUtils(){
 
         private val wayTocContactHint = R.string.way_to_contact_hint
         private val nameHint = R.string.name_hint
+        private val notCallLateHint= R.string.not_call_late_hint
         private val messageHint = R.string.butterfly_fake_contact_hint
 
         fun getUserInput(
@@ -39,7 +40,7 @@ class ButterflyUtils(){
             commentsLabel.text = activity.getString(comments)
 
             val commentsInput = EditText(activity)
-            commentsInput.hint = activity.getString(nameHint)
+            commentsInput.hint = activity.getString(nameHint) + "\n " + activity.getString(notCallLateHint)
 
             val wayContactLabel = TextView(activity)
             wayContactLabel.text = activity.getString(wayContact)
@@ -120,7 +121,7 @@ class ButterflyUtils(){
             val dialog = builder.create()
             dialog.setOnShowListener {
                 val button = dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener {
-                    if(!wayContactInput.text.toString().isEmpty()){
+                    if(wayContactInput.text.toString().isNotEmpty()){
                     onDone(commentsInput.text.toString(),wayContactInput.text.toString(),messageInput.text.toString())
                     dialog.dismiss()
                     }
@@ -131,7 +132,7 @@ class ButterflyUtils(){
                 }
             }
 
-            dialog.show()
+           dialog.show()
         }
     }
 }

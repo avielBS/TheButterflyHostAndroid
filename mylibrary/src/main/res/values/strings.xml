@@ -9,7 +9,8 @@
     <string name="butterfly_sent_reply">sent !</string>
     <string name="butterfly_faild_reply">failed !</string>
     <string name="way_to_contact_hint">e.g. Phone , Email ... before 12 AM</string>
-    <string name="name_hint">you can ask to use fake name : Jane Doe</string>
+    <string name="name_hint">- you can ask to use fake name : Jane Doe</string>
+    <string name="not_call_late_hint">- do not call after 5 PM</string>
     <string name="butterfly_fake_contact_hint">e.g. laundromat</string>
 
 
