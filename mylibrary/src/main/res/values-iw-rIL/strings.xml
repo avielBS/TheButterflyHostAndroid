@@ -12,4 +12,5 @@
     <string name="way_to_contact_hint">לדוגמא , להתקשר לפני 12 בצהרים</string>
     <string name="butterfly_fake_contact_hint">למשל מכבסה</string>
     <string name="not_call_late_hint">"לא להתקשר אחרי 5 "</string>
+    <string name="butterfly_no_connection_message">אין חיבור לאינטרנט</string>
 </resources>

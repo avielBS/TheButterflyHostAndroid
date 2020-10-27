@@ -1,12 +1,17 @@
 package com.example.mylibrary;
+
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function3;
 import okhttp3.MediaType;
@@ -23,6 +28,7 @@ public class ButterflyHost implements ReporterDialogData {
     private Boolean success;
     private Activity activity;
     private Context context;
+    private String key = "";
 
     public ButterflyHost() {
         success = false;
@@ -31,11 +37,14 @@ public class ButterflyHost implements ReporterDialogData {
         handler = new Handler(handlerThread.getLooper());
     }
 
-    public Boolean OnGrabReportRequested(Activity activity) {
+    public Boolean OnGrabReportRequested(Activity activity,String key) {
         this.activity = activity;
         this.context = activity.getApplicationContext();
-        openDialog();
-        return this.success;
+        this.key = key;
+        synchronized (this.success) {
+            openDialog();
+            return this.success;
+        }
     }
 
     private void openDialog() {
@@ -49,7 +58,7 @@ public class ButterflyHost implements ReporterDialogData {
     }
 
     private String getMyIpAddress() {
-            return get("https://api.myip.com");
+        return get("https://us-central1-my-time-bank.cloudfunctions.net/geolocation");
     }
 
     /**
@@ -85,23 +94,31 @@ public class ButterflyHost implements ReporterDialogData {
         final Gson gson = new Gson();
         final String jsonReport = gson.toJson(report);
         Log.d("report as json ", jsonReport);
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                String jsonIP = getMyIpAddress();
+
+        if (isNetworkAvailable()) {
+
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    String jsonIP = getMyIpAddress();
                     IPModel ipModel = gson.fromJson(jsonIP, IPModel.class);
                     report.setCountry(ipModel.getCountry());
-                    //          res = post("https://butterfly-host-server.herokuapp.com/sendReport",gson.toJson(report));
-                    success = post("http://10.0.2.2:12345/sendReport", gson.toJson(report));
-                    if(success)
+                    success = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
+                    //success = post("http://10.0.2.2:12345/sendReport", gson.toJson(report)); //for local running
+                    if (success)
                         showToast(context.getString(R.string.butterfly_sent_reply));
                     else
                         showToast(context.getString(R.string.butterfly_faild_reply));
                     Log.d("tag", res);
-            }
-        };
-        handler.post(runnable);
-        return this.success;
+                }
+            };
+            handler.post(runnable);
+            return this.success;
+        } else {
+            showToast(activity.getString(R.string.butterfly_no_connection_message));
+            return false;
+        }
+
     }
 
     private void showToast(final String s) {
@@ -111,6 +128,13 @@ public class ButterflyHost implements ReporterDialogData {
                 Toast.makeText(context, s, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     /**
@@ -126,6 +150,7 @@ public class ButterflyHost implements ReporterDialogData {
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
+                    .addHeader("BUTTERFLY_HOST_API_KEY", this.key)
                     .build();
             try (Response response = client.newCall(request).execute()) {
 

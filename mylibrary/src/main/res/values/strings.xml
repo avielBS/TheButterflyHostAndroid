@@ -12,6 +12,7 @@
     <string name="name_hint">- you can ask to use fake name : Jane Doe</string>
     <string name="not_call_late_hint">- do not call after 5 PM</string>
     <string name="butterfly_fake_contact_hint">e.g. laundromat</string>
+    <string name="butterfly_no_connection_message">No Internet connection</string>
 
 
 </resources>
