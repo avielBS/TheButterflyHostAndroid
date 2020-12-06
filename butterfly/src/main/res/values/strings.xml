@@ -1,18 +1,15 @@
 <resources>
-    <string name="app_name">My Library</string>
-
-    <string name="butterfly_comments_title">Comments :</string>
-    <string name="butterfly_way_to_contact">How and When can we contact you ?</string>
-    <string name="butterfly_fake_contact">Do you want contact from fake place ?</string>
+    <string name="app_name">Butterfly Host</string>
     <string name="butterfly_btn_send">Send</string>
     <string name="butterfly_contact">Contact</string>
     <string name="butterfly_sent_reply">sent !</string>
     <string name="butterfly_faild_reply">failed !</string>
-    <string name="way_to_contact_hint">e.g. Phone , Email ... before 12 AM</string>
-    <string name="name_hint">- you can ask to use fake name : Jane Doe</string>
-    <string name="not_call_late_hint">- do not call after 5 PM</string>
-    <string name="butterfly_fake_contact_hint">e.g. laundromat</string>
+    <string name="butterfly_way_to_contact_hint">How to contact you? (e.g phone)</string>
+    <string name="butterfly_comments_hint">Any comments? (e.g don\'t call after 4 pm)</string>
     <string name="butterfly_no_connection_message">No Internet connection</string>
+    <string name="butterfly_message_label_text" >Feel free to send here whatever crosses your mind.The Information that is sent remains secret without leaving a trail. we take serious consideration and won\'t take any reckless decisions.Good luck!</string>
+    <string name="butterfly_fake_contact_hint">Should we present ourself from fake pace? (e.g laundry)</string>
+    <string name="butterfly_btn_cancel">Cancel</string>
 
 
 </resources>

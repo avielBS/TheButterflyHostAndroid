@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Library</string>
+    <string name="app_name">מארח הפרפר</string>
     <string name="butterfly_btn_send">שלח</string>
-    <string name="butterfly_fake_contact">האם ברצונך שיצרו איתך קשר בשם בדוי ?  (למשל מכבסה )</string>
-    <string name="butterfly_comments_title">שם שיצרו איתך קשר</string>
-    <string name="butterfly_way_to_contact">מתי ואיך ליצור קשר?</string>
-    <string name="butterfly_contact">צור קשר</string>
+    <string name="butterfly_contact">דיווח אנונימי</string>
     <string name="butterfly_faild_reply">נכשל</string>
     <string name="butterfly_sent_reply">נשלח</string>
-    <string name="name_hint">אפשר להשתמש גם בשם בדוי</string>
-    <string name="way_to_contact_hint">לדוגמא , להתקשר לפני 12 בצהרים</string>
-    <string name="butterfly_fake_contact_hint">למשל מכבסה</string>
-    <string name="not_call_late_hint">"לא להתקשר אחרי 5 "</string>
+    <string name="butterfly_comments_hint">היערות נוספות...</string>
+    <string name="butterfly_way_to_contact_hint">איך ליצוא איתך קשר?(טלפון או מייל)</string>
+    <string name="butterfly_fake_contact_hint">האם להתקשר ממקום בדוי?(דוגמא מכבסה)</string>
     <string name="butterfly_no_connection_message">אין חיבור לאינטרנט</string>
+    <string name="butterfly_message_label_text">תרגישו חופשי לשלוח כאן את מה שעולה על רוכחם, המידע שישלח ישאר סודי ולא ישאיר עקבות. נתייחס בכובד ראש ולא ניקח החלטות פזיזות. בהצלחה</string>
+    <string name="butterfly_btn_cancel">ביטול</string>
 </resources>

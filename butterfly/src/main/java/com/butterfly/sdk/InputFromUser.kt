@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.Typeface
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -15,15 +17,12 @@ class ButterflyUtils(){
 
     companion object{
 
-        private val comments = R.string.butterfly_comments_title
-        private val wayContact = R.string.butterfly_way_to_contact
-        private val message = R.string.butterfly_fake_contact
         private val title = R.string.butterfly_contact
 
-        private val wayTocContactHint = R.string.way_to_contact_hint
-        private val nameHint = R.string.name_hint
-        private val notCallLateHint= R.string.not_call_late_hint
-        private val messageHint = R.string.butterfly_fake_contact_hint
+        private val wayTocContactHint = R.string.butterfly_way_to_contact_hint
+        private val commentsHint = R.string.butterfly_comments_hint
+        private val fakePlaceHint = R.string.butterfly_fake_contact_hint
+        private val messageLabelTxt = R.string.butterfly_message_label_text;
 
         fun getUserInput(
                 activity: Activity,
@@ -36,23 +35,28 @@ class ButterflyUtils(){
             val _alertScaffold = LinearLayout(activity)
             _alertScaffold.orientation = LinearLayout.VERTICAL
 
-            val commentsLabel = TextView(activity)
-            commentsLabel.text = activity.getString(comments)
+//            val commentsLabel = TextView(activity)
+//            commentsLabel.text = activity.getString(comments)
+
+            val messageLabel = TextView(activity)
+            messageLabel.text = activity.getString(messageLabelTxt)
+            messageLabel.typeface = Typeface.DEFAULT_BOLD
+            messageLabel.gravity = Gravity.CENTER
 
             val commentsInput = EditText(activity)
-            commentsInput.hint = activity.getString(nameHint) + "\n " + activity.getString(notCallLateHint)
+            commentsInput.hint = activity.getString(commentsHint)
 
-            val wayContactLabel = TextView(activity)
-            wayContactLabel.text = activity.getString(wayContact)
+//            val wayContactLabel = TextView(activity)
+//            wayContactLabel.text = activity.getString(wayContact)
 
             val wayContactInput = EditText(activity)
             wayContactInput.hint = activity.getString(wayTocContactHint)
 
-            val messageLabel = TextView(activity)
-            messageLabel.text = activity.getString(message)
+//            val messageLabel = TextView(activity)
+//            messageLabel.text = activity.getString(message)
 
             val messageInput = EditText(activity)
-            messageInput.hint = activity.getString(messageHint)
+            messageInput.hint = activity.getString(fakePlaceHint)
 
             _alertScaffold.addView(View(activity), LinearLayout.LayoutParams(0, 10))
 
@@ -60,20 +64,6 @@ class ButterflyUtils(){
             alertBodyContainer.orientation = LinearLayout.HORIZONTAL
             alertBodyContainer.addView(View(activity), LinearLayout.LayoutParams(0, 0, 0.5f))
 
-            _alertScaffold.addView(
-                    wayContactLabel,
-                    LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-            )
-            _alertScaffold.addView(
-                    wayContactInput,
-                    LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-            )
 
             _alertScaffold.addView(
                     messageLabel,
@@ -82,6 +72,29 @@ class ButterflyUtils(){
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     )
             )
+
+//            _alertScaffold.addView(
+//                    wayContactLabel,
+//                    LinearLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.WRAP_CONTENT
+//                    )
+//            )
+            _alertScaffold.addView(
+                    wayContactInput,
+                    LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+            )
+//
+//            _alertScaffold.addView(
+//                    messageLabel,
+//                    LinearLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.WRAP_CONTENT
+//                    )
+//            )
             _alertScaffold.addView(
                     messageInput,
                     LinearLayout.LayoutParams(
@@ -89,14 +102,15 @@ class ButterflyUtils(){
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     )
             )
+//
+//            _alertScaffold.addView(
+//                    commentsLabel,
+//                    LinearLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.WRAP_CONTENT
+//                    )
+//            )
 
-            _alertScaffold.addView(
-                    commentsLabel,
-                    LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-            )
             _alertScaffold.addView(
                     commentsInput,
                     LinearLayout.LayoutParams(
@@ -115,8 +129,8 @@ class ButterflyUtils(){
 
             _alertScaffold.addView(View(activity), LinearLayout.LayoutParams(0, 50))
 
-            builder.setNegativeButton(android.R.string.cancel) { dialog, which -> dialog.cancel() }
-            builder.setPositiveButton(android.R.string.ok, null)
+            builder.setNegativeButton(R.string.butterfly_btn_cancel) { dialog, which -> dialog.cancel() }
+            builder.setPositiveButton(R.string.butterfly_btn_send, null)
 
             val dialog = builder.create()
             dialog.setOnShowListener {
