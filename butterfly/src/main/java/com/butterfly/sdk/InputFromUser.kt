@@ -35,9 +35,6 @@ class ButterflyUtils(){
             val _alertScaffold = LinearLayout(activity)
             _alertScaffold.orientation = LinearLayout.VERTICAL
 
-//            val commentsLabel = TextView(activity)
-//            commentsLabel.text = activity.getString(comments)
-
             val messageLabel = TextView(activity)
             messageLabel.text = activity.getString(messageLabelTxt)
             messageLabel.typeface = Typeface.DEFAULT_BOLD
@@ -46,14 +43,8 @@ class ButterflyUtils(){
             val commentsInput = EditText(activity)
             commentsInput.hint = activity.getString(commentsHint)
 
-//            val wayContactLabel = TextView(activity)
-//            wayContactLabel.text = activity.getString(wayContact)
-
             val wayContactInput = EditText(activity)
             wayContactInput.hint = activity.getString(wayTocContactHint)
-
-//            val messageLabel = TextView(activity)
-//            messageLabel.text = activity.getString(message)
 
             val messageInput = EditText(activity)
             messageInput.hint = activity.getString(fakePlaceHint)
@@ -73,13 +64,6 @@ class ButterflyUtils(){
                     )
             )
 
-//            _alertScaffold.addView(
-//                    wayContactLabel,
-//                    LinearLayout.LayoutParams(
-//                            ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT
-//                    )
-//            )
             _alertScaffold.addView(
                     wayContactInput,
                     LinearLayout.LayoutParams(
@@ -87,14 +71,7 @@ class ButterflyUtils(){
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     )
             )
-//
-//            _alertScaffold.addView(
-//                    messageLabel,
-//                    LinearLayout.LayoutParams(
-//                            ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT
-//                    )
-//            )
+
             _alertScaffold.addView(
                     messageInput,
                     LinearLayout.LayoutParams(
@@ -102,14 +79,6 @@ class ButterflyUtils(){
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     )
             )
-//
-//            _alertScaffold.addView(
-//                    commentsLabel,
-//                    LinearLayout.LayoutParams(
-//                            ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT
-//                    )
-//            )
 
             _alertScaffold.addView(
                     commentsInput,
