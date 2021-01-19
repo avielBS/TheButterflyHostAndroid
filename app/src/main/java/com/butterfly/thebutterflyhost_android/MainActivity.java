@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ButterflyHost butterflyHost = new ButterflyHost();
+                ButterflyHost butterflyHost = ButterflyHost.getInstance();
                 boolean success= butterflyHost.OnGrabReportRequested(activity,"key1");
                 Log.d("Result !!!","from "+this.getClass().getName() +" "+ success);
             }

@@ -29,8 +29,16 @@ public class ButterflyHost implements ReporterDialogData {
     private Activity activity;
     private Context context;
     private String key = "";
+    private static ButterflyHost butterflyHost = null;
 
-    public ButterflyHost() {
+    public static ButterflyHost getInstance() {
+        if (butterflyHost == null) {
+            butterflyHost = new ButterflyHost();
+        }
+        return butterflyHost;
+    }
+
+    private  ButterflyHost() {
         success = false;
         HandlerThread handlerThread = new HandlerThread("butterflyHost");
         handlerThread.start();
