@@ -42,3 +42,7 @@ In order to present the view, ButterflyHostSDK require an the current Activitiy.
 ButterflyHost butterflyHost = ButterflyHost.getInstance();
         butterflyHost.OnGrabReportRequested(activity, YOUR_API_KEY);
 ```
+
+#### Comments
+
+You may have to change your minSdkVersion to 21 >=
