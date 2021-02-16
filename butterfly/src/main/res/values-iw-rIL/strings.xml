@@ -11,4 +11,5 @@
     <string name="butterfly_no_connection_message">אין חיבור לאינטרנט</string>
     <string name="butterfly_message_label_text">תרגישו חופשי לשלוח כאן את מה שעולה על רוחכם, המידע שישלח ישאר סודי ולא ישאיר עקבות. נתייחס בכובד ראש ולא ניקח החלטות פזיזות. בהצלחה</string>
     <string name="butterfly_btn_cancel">ביטול</string>
+    <string name="butterfly_not_valid_api_key">השירות לא זמין עבור אפליקציה זו</string>
 </resources>

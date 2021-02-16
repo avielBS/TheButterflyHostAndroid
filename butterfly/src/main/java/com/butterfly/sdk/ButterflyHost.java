@@ -25,7 +25,7 @@ public class ButterflyHost implements ReporterDialogData {
 
     private final Handler handler;
     private String res = "";
-    private Boolean success;
+    private Integer responseCode;
     private Activity activity;
     private Context context;
     private String key = "";
@@ -39,19 +39,18 @@ public class ButterflyHost implements ReporterDialogData {
     }
 
     private  ButterflyHost() {
-        success = false;
+        responseCode = 0;
         HandlerThread handlerThread = new HandlerThread("butterflyHost");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
     }
 
-    public Boolean OnGrabReportRequested(Activity activity,String key) {
+    public void OnGrabReportRequested(Activity activity,String key) {
         this.activity = activity;
         this.context = activity.getApplicationContext();
         this.key = key;
-        synchronized (this.success) {
+        synchronized (this.responseCode) {
             openDialog();
-            return this.success;
         }
     }
 
@@ -97,7 +96,7 @@ public class ButterflyHost implements ReporterDialogData {
     }
 
     @Override
-    public boolean onDialogComplete(String name, String way, String date ) {
+    public void onDialogComplete(String name, String way, String date ) {
         final Report report = new Report(name, way, date,"");
         final Gson gson = new Gson();
         final String jsonReport = gson.toJson(report);
@@ -111,20 +110,20 @@ public class ButterflyHost implements ReporterDialogData {
                     String jsonIP = getCountryFromIpAddress();
                     IPModel ipModel = gson.fromJson(jsonIP, IPModel.class);
                     report.setCountry(ipModel.getCountry());
-                    success = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
+                    responseCode = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
                    // success = post("http://10.0.2.2:12345/sendReport", gson.toJson(report)); //for local running
-                    if (success)
+                    if (responseCode == 200)
                         showToast(context.getString(R.string.butterfly_sent_reply));
+                    else if (responseCode == 403)
+                        showToast(context.getString(R.string.butterfly_not_valid_api_key));
                     else
                         showToast(context.getString(R.string.butterfly_faild_reply));
                     Log.d("tag", res);
                 }
             };
             handler.post(runnable);
-            return this.success;
         } else {
             showToast(activity.getString(R.string.butterfly_no_connection_message));
-            return false;
         }
 
     }
@@ -151,7 +150,7 @@ public class ButterflyHost implements ReporterDialogData {
      * @param json
      * @return
      */
-    private boolean post(String url, String json) {
+    private int post(String url, String json) {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(json, JSON);
@@ -161,17 +160,14 @@ public class ButterflyHost implements ReporterDialogData {
                     .addHeader("BUTTERFLY_HOST_API_KEY", this.key)
                     .build();
             try (Response response = client.newCall(request).execute()) {
-
-                if (response.code() == 200) {
-                    return true;
-                } else {
+                if (response.code() == 400) {
                     Log.d("err", "http fail");
-                    return false;
                 }
+                return response.code();
             }
             catch (Exception e){
                 Log.e("error",e.getMessage());
-                return false;
+                return 400;
             }
     }
 }

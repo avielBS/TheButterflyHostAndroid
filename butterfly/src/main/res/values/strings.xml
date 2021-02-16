@@ -10,6 +10,7 @@
     <string name="butterfly_message_label_text" >Feel free to send here whatever crosses your mind.The Information that is sent remains secret without leaving a trail. we take serious consideration and won\'t take any reckless decisions.Good luck!</string>
     <string name="butterfly_fake_contact_hint">Should we present ourself from fake pace? (e.g laundry)</string>
     <string name="butterfly_btn_cancel">Cancel</string>
+    <string name="butterfly_not_valid_api_key">The service not available for this application</string>
 
 
 </resources>
