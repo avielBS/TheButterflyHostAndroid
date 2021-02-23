@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ButterflyHost butterflyHost = ButterflyHost.getInstance();
-                butterflyHost.OnGrabReportRequested(activity,"key13");
+                butterflyHost.OnGrabReportRequested(activity,"key1");
             }
         });
 

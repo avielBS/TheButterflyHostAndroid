@@ -3,7 +3,7 @@
     <string name="app_name">מארח הפרפר</string>
     <string name="butterfly_btn_send">שלח</string>
     <string name="butterfly_contact">דיווח אנונימי</string>
-    <string name="butterfly_faild_reply">נכשל</string>
+    <string name="butterfly_failed_reply">נכשל</string>
     <string name="butterfly_sent_reply">נשלח</string>
     <string name="butterfly_comments_hint">היערות נוספות...</string>
     <string name="butterfly_way_to_contact_hint">איך ליצוא איתך קשר?(טלפון או מייל)</string>

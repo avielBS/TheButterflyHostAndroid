@@ -6,7 +6,7 @@ public class Report {
     private String wayContact;
     private String fakePlace;
     private String message;
-        private String country;
+    private String country;
 
     public Report(String comments, String way , String date , String msg) {
         this.comments  = comments;

@@ -64,37 +64,6 @@ public class ButterflyHost implements ReporterDialogData {
         });
     }
 
-    private String getCountryFromIpAddress() {
-        return get("https://us-central1-butterfly-host.cloudfunctions.net/getGeoLocation");
-    }
-
-    /**
-     * this function make GET request
-     * @param url
-     * @return
-     */
-    private String get(String url)  {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.body() != null) {
-                String rv = response.body().string();
-                Log.d("Response : ",rv);
-                return rv;
-            } else {
-                Log.d("err", "cant getting ip");
-                return "";
-            }
-        } catch (Exception e) {
-            Log.e("error",e.getMessage());
-            return null;
-        }
-    }
-
     @Override
     public void onDialogComplete(String name, String way, String date ) {
         final Report report = new Report(name, way, date,"");
@@ -107,17 +76,14 @@ public class ButterflyHost implements ReporterDialogData {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    String jsonIP = getCountryFromIpAddress();
-                    IPModel ipModel = gson.fromJson(jsonIP, IPModel.class);
-                    report.setCountry(ipModel.getCountry());
                     responseCode = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
-                   // success = post("http://10.0.2.2:12345/sendReport", gson.toJson(report)); //for local running
+                    //responseCode = post("http://192.168.56.1:12345/sendReport", gson.toJson(report)); //for local running
                     if (responseCode == 200)
                         showToast(context.getString(R.string.butterfly_sent_reply));
                     else if (responseCode == 403)
                         showToast(context.getString(R.string.butterfly_not_valid_api_key));
                     else
-                        showToast(context.getString(R.string.butterfly_faild_reply));
+                        showToast(context.getString(R.string.butterfly_failed_reply));
                     Log.d("tag", res);
                 }
             };
