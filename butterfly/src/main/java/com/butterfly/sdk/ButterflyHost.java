@@ -24,7 +24,6 @@ import okhttp3.Response;
 public class ButterflyHost implements ReporterDialogData {
 
     private final Handler handler;
-    private String res = "";
     private Integer responseCode;
     private Activity activity;
     private Context context;
@@ -66,7 +65,7 @@ public class ButterflyHost implements ReporterDialogData {
 
     @Override
     public void onDialogComplete(String name, String way, String date ) {
-        final Report report = new Report(name, way, date,"");
+        final Report report = new Report(name, way, date);
         final Gson gson = new Gson();
         final String jsonReport = gson.toJson(report);
         Log.d("report as json ", jsonReport);
@@ -84,7 +83,6 @@ public class ButterflyHost implements ReporterDialogData {
                         showToast(context.getString(R.string.butterfly_not_valid_api_key));
                     else
                         showToast(context.getString(R.string.butterfly_failed_reply));
-                    Log.d("tag", res);
                 }
             };
             handler.post(runnable);

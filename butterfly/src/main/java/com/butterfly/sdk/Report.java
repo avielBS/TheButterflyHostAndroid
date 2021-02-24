@@ -5,14 +5,12 @@ public class Report {
     private String comments;
     private String wayContact;
     private String fakePlace;
-    private String message;
     private String country;
 
-    public Report(String comments, String way , String date , String msg) {
+    public Report(String comments, String way , String date) {
         this.comments  = comments;
         this.wayContact = way;
         this.fakePlace = date;
-        this.message = msg;
     }
 
     public String getName() {
@@ -37,14 +35,6 @@ public class Report {
 
     public void setFakePlace(String fakePlace) {
         this.fakePlace = fakePlace;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public void setCountry(String country) {
