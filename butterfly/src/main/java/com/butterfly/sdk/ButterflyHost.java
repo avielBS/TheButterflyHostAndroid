@@ -25,7 +25,6 @@ public class ButterflyHost implements ReporterDialogData {
 
     private final Handler handler;
     private Integer responseCode;
-    private Activity activity;
     private Context context;
     private String key = "";
     private static ButterflyHost butterflyHost = null;
@@ -45,15 +44,12 @@ public class ButterflyHost implements ReporterDialogData {
     }
 
     public void OnGrabReportRequested(Activity activity,String key) {
-        this.activity = activity;
         this.context = activity.getApplicationContext();
         this.key = key;
-        synchronized (this.responseCode) {
-            openDialog();
-        }
+        openDialog(activity);
     }
 
-    private void openDialog() {
+    private void openDialog(Activity activity) {
         ButterflyUtils.Companion.getUserInput(activity, new Function3<String, String, String, Unit>() {
             @Override
             public Unit invoke(String name, String wayToContactAndWhen, String additionalInfo) {
@@ -77,17 +73,22 @@ public class ButterflyHost implements ReporterDialogData {
                 public void run() {
                     responseCode = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
                     //responseCode = post("http://192.168.56.1:12345/sendReport", gson.toJson(report)); //for local running
-                    if (responseCode == 200)
-                        showToast(context.getString(R.string.butterfly_sent_reply));
-                    else if (responseCode == 403)
-                        showToast(context.getString(R.string.butterfly_not_valid_api_key));
-                    else
-                        showToast(context.getString(R.string.butterfly_failed_reply));
+                    switch (responseCode){
+                        case 200:
+                            showToast(context.getString(R.string.butterfly_sent_reply));
+                            break;
+                        case 403:
+                            showToast(context.getString(R.string.butterfly_not_valid_api_key));
+                            break;
+                        default:
+                            showToast(context.getString(R.string.butterfly_failed_reply));
+                            break;
+                    }
                 }
             };
             handler.post(runnable);
         } else {
-            showToast(activity.getString(R.string.butterfly_no_connection_message));
+            showToast(context.getString(R.string.butterfly_no_connection_message));
         }
 
     }
@@ -103,7 +104,7 @@ public class ButterflyHost implements ReporterDialogData {
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
