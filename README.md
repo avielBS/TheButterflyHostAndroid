@@ -1,5 +1,6 @@
 # TheButterflyHost Android SDK
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![](https://jitpack.io/v/avielBS/TheButterflyHostAndroid.svg)](https://jitpack.io/#avielBS/TheButterflyHostAndroid)
 
 TheButterflyHost help you app to take part in the fight against domestic violent.
 
