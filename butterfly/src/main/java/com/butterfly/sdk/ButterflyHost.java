@@ -10,7 +10,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function3;
@@ -29,6 +31,7 @@ public class ButterflyHost implements ReporterDialogData {
     private String key = "";
     private static ButterflyHost butterflyHost = null;
 
+
     public static ButterflyHost getInstance() {
         if (butterflyHost == null) {
             butterflyHost = new ButterflyHost();
@@ -43,7 +46,7 @@ public class ButterflyHost implements ReporterDialogData {
         handler = new Handler(handlerThread.getLooper());
     }
 
-    public void OnGrabReportRequested(Activity activity,String key) {
+    public void grabReportRequested(Activity activity, String key) {
         this.context = activity.getApplicationContext();
         this.key = key;
         openDialog(activity);
@@ -62,16 +65,23 @@ public class ButterflyHost implements ReporterDialogData {
     @Override
     public void onDialogComplete(String name, String way, String date ) {
         final Report report = new Report(name, way, date);
-        final Gson gson = new Gson();
-        final String jsonReport = gson.toJson(report);
-        Log.d("report as json ", jsonReport);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("wayContact",report.getWayContact());
+            jsonObject.put("fakePlace",report.getFakePlace());
+            jsonObject.put("comments",report.getComments());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        Log.d("report as json ", jsonObject.toString());
 
         if (isNetworkAvailable()) {
 
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    responseCode = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", gson.toJson(report));
+                    responseCode = post("https://us-central1-butterfly-host.cloudfunctions.net/sendReport", jsonObject.toString());
                     //responseCode = post("http://192.168.56.1:12345/sendReport", gson.toJson(report)); //for local running
                     switch (responseCode){
                         case 200:

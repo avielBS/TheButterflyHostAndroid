@@ -13,7 +13,7 @@ public class Report {
         this.fakePlace = date;
     }
 
-    public String getName() {
+    public String getComments() {
         return comments;
     }
 
